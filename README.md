@@ -51,7 +51,6 @@ Get the coreos-installer binary
 
 ```bash
 wget https://mirror.openshift.com/pub/openshift-v4/clients/coreos-installer/latest/coreos-installer
-wget https://mirror.openshift.com/pub/openshift-v4/clients/coreos-installer/v0.13.1-1/coreos-installer
 chmod 755 coreos-installer
 mv coreos-installer $HOME/bin
 ```
@@ -88,7 +87,7 @@ bootstrapInPlace:
   installationDisk: /dev/vda
 pullSecret: '<your pull secret>'
 sshKey: |
-  <your ssh pubic key to access host>
+  <your ssh public key to access host>
 EOF
 ```
 
