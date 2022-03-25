@@ -1,4 +1,4 @@
-# OCP4 SNO Libvirt In-Place Install
+# OCP4 SNO Libvirt Bootstrap In-Place
 
 This uses a single instance qemu+libvirt vm for installing OpenShift 4 - SNO in a home lab.
 
@@ -265,3 +265,10 @@ On my AMD host, i also found setting the Memory Speed to 2667MHz in the bios (ra
 ```bash
 general protection fault, probably for non-canonical address 0x9a158ca82eabad75: 0000 [#1] PREEMPT SMP NOPTI
 ```
+
+Some links for the needy
+
+- https://docs.openshift.com/container-platform/4.10/installing/installing_sno/install-sno-installing-sno.html
+- https://gist.github.com/acsulli/912cc974e335128066eaa517f83d693a
+- https://github.com/eranco74/bootstrap-in-place-poc
+- https://github.com/openshift-hive/installer/tree/master/docs/dev/libvirt
