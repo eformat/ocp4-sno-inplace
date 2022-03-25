@@ -129,7 +129,7 @@ virsh net-start sno
 virsh net-autostart sno
 ```
 
-Set up dnsmasq pointing to gateway on libvirt netowrk
+Set up dnsmasq pointing to gateway on libvirt network
 
 ```bash
 echo server=/api.sno.eformat.me/10.1.1.1 | sudo tee /etc/NetworkManager/dnsmasq.d/openshift.conf
