@@ -245,7 +245,7 @@ All going well, OpenShift SNO will install, Profit !
 
 ## Thin LVM Snapshots, Rollbacks
 
-Create snapshot lvms i.e. a restore point ( i am using sno-local for openshift local storage here as another disk)
+Create snapshot lvms i.e. a restore point (i am using sno-local for openshift local storage here as another disk)
 
 ```bash
 lvcreate -n sno-snap1 -s fedora_fedora/sno
