@@ -243,6 +243,24 @@ and ```oc get co``` once installer has progressed.
 
 All going well, OpenShift SNO will install, Profit !
 
+## Thin LVM Snapshots, Rollbacks
+
+Create snapshot lvms i.e. a restore point ( i am using sno-local for openshift local storage here as another disk)
+
+```bash
+lvcreate -n sno-snap1 -s fedora_fedora/sno
+lvcreate -n sno-local-snap1 -s fedora_fedora/sno-local
+```
+
+Stop vm. Restore to snapshots.
+
+```bash
+lvconvert --merge /dev/fedora_fedora/sno-snap1
+lvconvert --merge /dev/fedora_fedora/sno-local-snap1
+```
+
+Restart SNO instance. I have been successfully using this technique to test cluster busting things, then roll back to the thin-lvm snapshot.
+
 ## Notes
 
 You can ssh to the node after it boots to check out whats going on
