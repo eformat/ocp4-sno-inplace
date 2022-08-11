@@ -2,11 +2,11 @@
 
 This uses a single instance qemu+libvirt vm for installing OpenShift 4 - SNO in a home lab.
 
-I'm using fc36, AMD gen3 ryzen 5 (6 physical cores), 96 GB RAM on the lab host.
+I'm using fc35, AMD gen3 ryzen 5 (6 physical cores), 96 GB RAM on the lab host.
 
-## FC36
+## FC35
 
-My fedora core36 has libvirt and hugepages configured based on this
+My fedora core35 has libvirt and hugepages configured based on this
 
 - add huge pages - https://access.redhat.com/solutions/36741
 
@@ -23,9 +23,9 @@ Download the ocp install binaries
 Cli and Installer
 
 ```bash
-# the latest OpenShift 4.11 CLI binaries
-wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.11/openshift-client-linux.tar.gz
-wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.11/openshift-install-linux.tar.gz
+# the latest OpenShift 4.10 CLI binaries
+wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.10/openshift-client-linux.tar.gz
+wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.10/openshift-install-linux.tar.gz
 ```
 
 Unpack
@@ -36,7 +36,7 @@ tar xzf openshift-client-linux.tar.gz
 tar xzf openshift-install-linux.tar.gz
 # move to the path
 chmod 755 kubectl oc openshift-install
-VERSION=4.11.0
+VERSION=4.10.4
 mv kubectl $HOME/bin/kubectl-$VERSION
 mv oc $HOME/bin/oc-$VERSION
 mv openshift-install $HOME/bin/openshift-install-$VERSION
@@ -179,7 +179,7 @@ Create all the OCP ignition and iso bits&pieces, set `OPENSHIFT_INSTALL_RELEASE_
 ```bash
 rm -rf cluster
 mkdir cluster && cp install-config.yaml cluster/
-export OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE=quay.io/openshift-release-dev/ocp-release:4.11.0-x86_64
+export OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE=quay.io/openshift-release-dev/ocp-release:4.10.4-x86_64
 openshift-install create single-node-ignition-config --dir=cluster
 sudo rm -f /var/lib/libvirt/images/rhcos-live.x86_64.iso
 sudo coreos-installer iso ignition embed -fi cluster/bootstrap-in-place-for-live-iso.ign rhcos-live.x86_64.iso -o /var/lib/libvirt/images/rhcos-live.x86_64.iso
@@ -230,12 +230,6 @@ Use this disk line for qcow2 if you wanted to use that instead of thin-lvm
 
 ```bash
     --disk pool=sno,size="${DISK_GB},io=io_uring" \
-```
-
-Use this to disable mac check
-
-```bash
-    --check mac_in_use=off \
 ```
 
 Watch the installer
