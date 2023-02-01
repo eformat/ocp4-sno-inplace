@@ -2,11 +2,11 @@
 
 This uses a single instance qemu+libvirt vm for installing OpenShift 4 - SNO in a home lab.
 
-I'm using fc37, AMD gen3 ryzen 5 (6 physical cores), 96 GB RAM on the lab host.
+I'm using fc36, AMD gen3 ryzen 5 (6 physical cores), 96 GB RAM on the lab host.
 
-## FC37
+## FC36
 
-My fedora core37 has libvirt and hugepages configured based on this
+My fedora core36 has libvirt and hugepages configured based on this
 
 - add huge pages - https://access.redhat.com/solutions/36741
 
@@ -23,9 +23,9 @@ Download the ocp install binaries
 Cli and Installer
 
 ```bash
-# the latest OpenShift 4.12 CLI binaries
-wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.12/openshift-client-linux.tar.gz
-wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.12/openshift-install-linux.tar.gz
+# the latest OpenShift 4.11 CLI binaries
+wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.11/openshift-client-linux.tar.gz
+wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.11/openshift-install-linux.tar.gz
 ```
 
 Unpack
@@ -36,7 +36,7 @@ tar xzf openshift-client-linux.tar.gz
 tar xzf openshift-install-linux.tar.gz
 # move to the path
 chmod 755 kubectl oc openshift-install
-VERSION=4.12.1
+VERSION=4.11.0
 mv kubectl $HOME/bin/kubectl-$VERSION
 mv oc $HOME/bin/oc-$VERSION
 mv openshift-install $HOME/bin/openshift-install-$VERSION
@@ -179,7 +179,7 @@ Create all the OCP ignition and iso bits&pieces, set `OPENSHIFT_INSTALL_RELEASE_
 ```bash
 rm -rf cluster
 mkdir cluster && cp install-config.yaml cluster/
-export OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE=quay.io/openshift-release-dev/ocp-release:4.12.1-x86_64
+export OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE=quay.io/openshift-release-dev/ocp-release:4.11.0-x86_64
 openshift-install create single-node-ignition-config --dir=cluster
 sudo rm -f /var/lib/libvirt/images/rhcos-live.x86_64.iso
 sudo $HOME/bin/coreos-installer iso ignition embed -fi cluster/bootstrap-in-place-for-live-iso.ign rhcos-live.x86_64.iso -o /var/lib/libvirt/images/rhcos-live.x86_64.iso
@@ -195,6 +195,7 @@ As root, set these env vars, change to suit
 VM_NAME=sno
 NET_NAME=sno
 POOL_NAME=sno
+OS_VARIANT="fedora-coreos-stable"
 RAM_MB="32768"
 DISK_GB="120"
 CPU_CORE="8"
@@ -214,6 +215,7 @@ nohup virt-install \
     --memorybacking hugepages=yes \
     --vcpus "${CPU_CORE}" \
     --os-type=linux \
+    --os-variant="${OS_VARIANT}" \
     --cpu=host-passthrough,cache.mode=passthrough \
     --import \
     --network=network:${NET_NAME},mac=${MAC},driver.queues=4 \
